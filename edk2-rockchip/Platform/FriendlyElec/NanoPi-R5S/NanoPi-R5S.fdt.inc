@@ -13,7 +13,9 @@ INF Platform/FriendlyElec/NanoPi-R5S/Drivers/BoardInitDxe/BoardInitDxe.inf
 #
 # Devicetree support
 #
-#INF Platform/Rockchip/Rk356x/Drivers/FdtDxe/FdtDxe.inf
+!if $(FDT_ENABLE) == TRUE
+INF Platform/Rockchip/Rk356x/Drivers/FdtDxe/FdtDxe.inf
+!endif
 
 #
 # ACPI Support

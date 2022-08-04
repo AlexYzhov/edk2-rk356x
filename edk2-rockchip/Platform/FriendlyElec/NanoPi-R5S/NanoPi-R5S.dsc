@@ -27,6 +27,7 @@
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = Platform/Rockchip/Rk356x/Rk356x.fdf
   BOARD_DXE_FV_COMPONENTS        = Platform/FriendlyElec/NanoPi-R5S/NanoPi-R5S.fdt.inc
+  FDT_ENABLE                     = TRUE
 
   #
   # Defines for default states.  These can be changed on the command line.
@@ -424,7 +425,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVendor|L"EDK2"
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetNxForStack|TRUE
   gEfiMdeModulePkgTokenSpaceGuid.PcdImageProtectionPolicy|0x3
-  gRk356xTokenSpaceGuid.PcdPlatformName|"FriendlyElec NanoPi"
+  gRk356xTokenSpaceGuid.PcdPlatformName|"FriendlyElec NanoPi-R5S"
   gRk356xTokenSpaceGuid.PcdCpuName|"Rockchip RK3568 (Cortex-A55)"
   gRk356xTokenSpaceGuid.PcdPlatformVendorName|"FriendlyElec"
   gRk356xTokenSpaceGuid.PcdFamilyName|"NanoPi-R5S"
@@ -535,6 +536,7 @@
     <LibraryClasses>
       NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
       DebugLib|MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
+      VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
   }
   MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
@@ -612,7 +614,9 @@
   #
   # Devicetree support
   #
-  # Platform/Rockchip/Rk356x/Drivers/FdtDxe/FdtDxe.inf
+!if $(FDT_ENABLE) == TRUE
+  Platform/Rockchip/Rk356x/Drivers/FdtDxe/FdtDxe.inf
+!endif
 
   #
   # ACPI Support
