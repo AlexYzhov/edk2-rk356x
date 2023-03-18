@@ -1,4 +1,3 @@
-#### 2022-07-20
+#### 2023-03-18
 
-* Generate UUID and serial number in SMBIOS.
-* Support building with newer GCC versions.
+* Add OHCI support to UEFI (allows low/full speed devices to be plugged in to EHCI ports).
