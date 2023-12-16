@@ -1,8 +1,9 @@
 /** @file
  *
- *  Board init for the SOQuartz platform
+ *  Board init for the Orange Pi 3B platform
  *
  *  Copyright (c) 2021, Jared McNeill <jmcneill@invisible.ca>
+ *  Copyright (c) 2023, Mario Bălănică <mariobalanica02@gmail.com>
  *
  *  SPDX-License-Identifier: BSD-2-Clause-Patent
  *
@@ -56,7 +57,7 @@
 
 /*
  * PMIC registers
- */
+*/
 #define PMIC_I2C_ADDR           0x20
 
 #define PMIC_CHIP_NAME          0xed
@@ -65,6 +66,12 @@
 #define PMIC_POWER_EN2          0xb3
 #define PMIC_POWER_EN3          0xb4
 #define PMIC_LDO1_ON_VSEL       0xcc
+#define PMIC_LDO2_ON_VSEL       0xce
+#define PMIC_LDO3_ON_VSEL       0xd0
+#define PMIC_LDO4_ON_VSEL       0xd2
+#define PMIC_LDO6_ON_VSEL       0xd6
+#define PMIC_LDO7_ON_VSEL       0xd8
+#define PMIC_LDO8_ON_VSEL       0xda
 #define PMIC_LDO9_ON_VSEL       0xdc
 
 /*
@@ -141,11 +148,11 @@ BoardInitGmac (
                RXCLK_DLY_ENA);
 
   /* Reset PHY */
-  GpioPinSetDirection (0, GPIO_PIN_PC3, GPIO_PIN_OUTPUT);
+  GpioPinSetDirection (3, GPIO_PIN_PC2, GPIO_PIN_OUTPUT);
   MicroSecondDelay (1000);
-  GpioPinWrite (0, GPIO_PIN_PC3, 0);
+  GpioPinWrite (3, GPIO_PIN_PC2, 0);
   MicroSecondDelay (20000);
-  GpioPinWrite (0, GPIO_PIN_PC3, 1);
+  GpioPinWrite (3, GPIO_PIN_PC2, 1);
   MicroSecondDelay (100000);
 
   /* Deassert reset */
@@ -222,15 +229,20 @@ BoardInitPmic (
   DEBUG ((DEBUG_INFO, "PMIC: Detected RK%03X ver 0x%X\n", ChipName, ChipVer));
   ASSERT (ChipName == 0x809);
 
-  /* Check LD01 and LD09 are configured correctly. */
-  PmicRead (PMIC_LDO1_ON_VSEL, &Value);
-  ASSERT (Value == 0x0c); /* 0.9V */
-  PmicRead (PMIC_LDO9_ON_VSEL, &Value);
-  ASSERT (Value == 0x30); /* 1.8V */
+  /* Initialize PMIC */
+  PmicWrite (PMIC_LDO1_ON_VSEL, 0x0c);  /* 0.9V - vdda0v9_image */
+  PmicWrite (PMIC_LDO2_ON_VSEL, 0x0c);  /* 0.9V - vdda_0v9 */
+  PmicWrite (PMIC_LDO3_ON_VSEL, 0x0c);  /* 0.9V - vdd0v9_pmu */
+  PmicWrite (PMIC_LDO4_ON_VSEL, 0x6c);  /* 3.3V - vccio_acodec */
+  /* Skip LDO5 for now; 1.8V/3.3V - vccio_sd */
+  PmicWrite (PMIC_LDO6_ON_VSEL, 0x6c);  /* 3.3V - vcc3v3_pmu */
+  PmicWrite (PMIC_LDO7_ON_VSEL, 0x30);  /* 1.8V - vcca_1v8 */
+  PmicWrite (PMIC_LDO8_ON_VSEL, 0x30);  /* 1.8V - vcca1v8_pmu */
+  PmicWrite (PMIC_LDO9_ON_VSEL, 0x30);  /* 1.8V - vcca1v8_image */
 
-  /* Enable LDO1 and LDO9 for HDMI */
-  PmicWrite (PMIC_POWER_EN1, 0x11);
-  PmicWrite (PMIC_POWER_EN3, 0x11);
+  PmicWrite (PMIC_POWER_EN1, 0xff); /* LDO1, LDO2, LDO3, LDO4 */
+  PmicWrite (PMIC_POWER_EN2, 0xee); /* LDO6, LDO7, LDO8 */
+  PmicWrite (PMIC_POWER_EN3, 0x55); /* LDO9, SW1 */
 }
 
 STATIC
@@ -247,11 +259,11 @@ BoardInitWiFi (
   GpioSetIomuxConfig (mSdmmc1IomuxConfig, ARRAY_SIZE (mSdmmc1IomuxConfig));
 
   /* Set GPIO2 PC2 (WIFI_REG_ON) output high to enable WiFi */
-  GpioPinSetDirection (2, GPIO_PIN_PC2, GPIO_PIN_OUTPUT);
+  GpioPinSetDirection (0, GPIO_PIN_PD3, GPIO_PIN_OUTPUT);
   MicroSecondDelay (1000);
-  GpioPinWrite (2, GPIO_PIN_PC2, FALSE);
+  GpioPinWrite (0, GPIO_PIN_PD3, FALSE);
   MicroSecondDelay (500000);
-  GpioPinWrite (2, GPIO_PIN_PC2, TRUE);
+  GpioPinWrite (0, GPIO_PIN_PD3, TRUE);
   MicroSecondDelay (100000);
 }
 
@@ -277,7 +289,7 @@ BoardInitDriverEntryPoint (
 
   /* Set GPIO0 PC0 (WORK_LED) output low to enable LED */
   GpioPinSetDirection (0, GPIO_PIN_PC0, GPIO_PIN_OUTPUT);
-  GpioPinWrite (0, GPIO_PIN_PC0, FALSE);
+  GpioPinWrite (0, GPIO_PIN_PC0, TRUE);
 
   /* Enable automatic clock gating */
   MmioWrite32 (PMU_NOC_AUTO_CON0, 0xFFFFFFFFU);
@@ -292,19 +304,19 @@ BoardInitDriverEntryPoint (
   MultiPhySetMode (0, MULTIPHY_MODE_USB3);
   MultiPhySetMode (1, MULTIPHY_MODE_USB3);
 
+  /* USB_OTG_PWREN_H */
+  GpioPinSetDirection (0, GPIO_PIN_PA5, GPIO_PIN_OUTPUT);
+  GpioPinWrite (0, GPIO_PIN_PA5, TRUE);
+
+  /* USB_HOST_PWREN_H */
+  GpioPinSetDirection (0, GPIO_PIN_PA6, GPIO_PIN_OUTPUT);
+  GpioPinWrite (0, GPIO_PIN_PA6, TRUE);
+
   /* GMAC setup */
   BoardInitGmac ();
 
   /* WiFi setup */
   BoardInitWiFi ();
-
-  /*
-   * Set GPIO0 PA5 (nEXTRST) output high,
-   * "Driven high (CM4_3.3V) once CM4 CPU has started to boot".
-   * Used to get external devices out of reset state.
-   */
-  GpioPinSetDirection (0, GPIO_PIN_PA5, GPIO_PIN_OUTPUT);
-  GpioPinWrite (0, GPIO_PIN_PA5, TRUE);
 
   return EFI_SUCCESS;
 }
