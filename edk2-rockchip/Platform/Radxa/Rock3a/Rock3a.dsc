@@ -121,6 +121,7 @@
   I2cLib|Silicon/Rockchip/Rk356x/Library/I2cLib/I2cLib.inf
   MultiPhyLib|Silicon/Rockchip/Rk356x/Library/MultiPhyLib/MultiPhyLib.inf
   OtpLib|Silicon/Rockchip/Rk356x/Library/OtpLib/OtpLib.inf
+  Pcie30PhyLib|Silicon/Rockchip/Rk356x/Library/Pcie30PhyLib/Pcie30PhyLib.inf
   SdramLib|Silicon/Rockchip/Rk356x/Library/SdramLib/SdramLib.inf
   SocLib|Silicon/Rockchip/Rk356x/Library/SocLib/SocLib.inf
 
@@ -402,7 +403,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterAccessWidth|32
 
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate|115200
-  
+
   #
   # ARM General Interrupt Controller (GIC600)
   #
@@ -524,6 +525,7 @@
     <LibraryClasses>
       NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
       DebugLib|MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
+      VariableFlashInfoLib|MdeModulePkg/Library/BaseVariableFlashInfoLib/BaseVariableFlashInfoLib.inf
   }
   MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
@@ -633,6 +635,7 @@
   MdeModulePkg/Bus/Ata/AtaBusDxe/AtaBusDxe.inf
   MdeModulePkg/Bus/Scsi/ScsiBusDxe/ScsiBusDxe.inf
   MdeModulePkg/Bus/Scsi/ScsiDiskDxe/ScsiDiskDxe.inf
+  Silicon/Rockchip/Rk356x/Drivers/SataDxe/SataDxe.inf
 
   #
   # TRNG Support

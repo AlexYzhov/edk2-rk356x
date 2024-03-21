@@ -173,9 +173,9 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Core/RuntimeDxe/RuntimeDxe.inf
   INF MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   INF MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
-  INF Platform/Rockchip/Rk356x/Drivers/VarBlockServiceDxe/VarBlockServiceDxe.inf
-  INF MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
-  INF MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
+  # INF Platform/Rockchip/Rk356x/Drivers/VarBlockServiceDxe/VarBlockServiceDxe.inf
+  # INF MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
+  # INF MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
   INF MdeModulePkg/Universal/MonotonicCounterRuntimeDxe/MonotonicCounterRuntimeDxe.inf
   INF EmbeddedPkg/ResetRuntimeDxe/ResetRuntimeDxe.inf
   INF EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
@@ -215,7 +215,7 @@ READ_LOCK_STATUS   = TRUE
   #
   # Config
   #
-  INF Platform/Rockchip/Rk356x/Drivers/ConfigDxe/ConfigDxe.inf
+  # INF Platform/Rockchip/Rk356x/Drivers/ConfigDxe/ConfigDxe.inf
 
   #
   # UEFI application (Shell Embedded Boot Loader)
@@ -237,7 +237,7 @@ READ_LOCK_STATUS   = TRUE
   #
   # USB Support
   #
-  INF Silicon/Rockchip/Rk356x/Drivers/OhciDxe/OhciDxe.inf
+  # INF Silicon/Rockchip/Rk356x/Drivers/OhciDxe/OhciDxe.inf
   INF MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
   INF MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
   INF MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
@@ -275,7 +275,7 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Bus/Ata/AtaBusDxe/AtaBusDxe.inf
   INF MdeModulePkg/Bus/Scsi/ScsiBusDxe/ScsiBusDxe.inf
   INF MdeModulePkg/Bus/Scsi/ScsiDiskDxe/ScsiDiskDxe.inf
-  INF Silicon/Rockchip/Rk356x/Drivers/SataDxe/SataDxe.inf
+  # INF Silicon/Rockchip/Rk356x/Drivers/SataDxe/SataDxe.inf
 
   #
   # TRNG Support
