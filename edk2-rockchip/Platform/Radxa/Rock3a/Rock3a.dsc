@@ -25,7 +25,7 @@
   BUILD_TARGETS                  = DEBUG|RELEASE|NOOPT
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = Platform/Rockchip/Rk356x/Rk356x.fdf
-  BOARD_DXE_FV_COMPONENTS        = Platform/Radxa/Rock3a/Rock3a.fdt.inc
+  BOARD_DXE_FV_COMPONENTS        = Platform/Radxa/Rock3a/Rock3a.fdf.inc
 
   #
   # Defines for default states.  These can be changed on the command line.
