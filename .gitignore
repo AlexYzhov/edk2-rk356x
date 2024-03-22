@@ -5,3 +5,4 @@ idblock.bin
 *.img.gz
 .uefitools_done
 .vscode
+.edkCode

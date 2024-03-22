@@ -35,7 +35,8 @@ build_uefi() {
 	echo " => Building UEFI"
 	build -n $(getconf _NPROCESSORS_ONLN) -b ${RKUEFIBUILDTYPE} -a AARCH64 -t GCC5 \
 	    -D FIRMWARE_VER="${FIRMWARE_VER}" \
-	    -p Platform/${vendor}/${board}/${board}.dsc
+	    -p Platform/${vendor}/${board}/${board}.dsc \
+	    -Y COMPILE_INFO -y Build/${board}/${RKUEFIBUILDTYPE}_GCC5/BuildReport.log
 }
 
 build_idblock() {
